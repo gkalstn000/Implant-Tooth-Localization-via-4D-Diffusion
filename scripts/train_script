@@ -1,0 +1,1 @@
+CUDA_VISIBLE_DEVICES=2,3 nohup python -m torch.distributed.launch --nproc_per_node=2 --master_port 25121 train.py --exp_name diffusion_ct_base > diffusion_ct_base.out &
