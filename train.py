@@ -40,7 +40,7 @@ if __name__ == '__main__':
     if is_main_process() :
         os.makedirs(save_root, exist_ok=True)
 
-    opt = Config(args.config, args, is_train=True)
+    opt = Config(args.config, args, is_train=True, verbose=True)
     opt.continue_train = not args.no_resume
     opt.save_root = save_root
     opt.model.param.maxframe = opt.data.maxframe
@@ -48,9 +48,11 @@ if __name__ == '__main__':
     # Debug setting
     if args.debug :
         opt.display_freq= 1
-        opt.print_freq = 1
-        opt.save_latest_freq= 1
-        opt.save_epoch_freq= 1
+        # opt.print_freq = 1
+        # opt.save_latest_freq= 1
+        # opt.save_epoch_freq= 1
+        opt.data.train.batch_size=2
+
 
     if not args.single_gpu:
         opt.local_rank = local_rank

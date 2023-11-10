@@ -75,7 +75,8 @@ class BaseTrainer(object):
             print('No checkpoint found.')
             return None
         resume = opt.phase == 'train' and opt.resume
-        self._load_checkpoint(checkpoint_path, resume)
+        if resume :
+            self._load_checkpoint(checkpoint_path, resume)
 
 
     def _load_checkpoint(self, checkpoint_path, resume=True):
@@ -117,14 +118,14 @@ class BaseTrainer(object):
 
     def end_of_iteration(self, data, iter_counter):
         current_epoch = iter_counter.current_epoch
-        current_iteration = iter_counter.epoch_iter
+        total_iteration = iter_counter.total_steps_so_far
         time_per_iter = iter_counter.time_per_iter
         # Logging.
         if iter_counter.needs_printing() and is_main_process():
-            self._print_current_errors(current_epoch, current_iteration, time_per_iter)
-            self._write_wandb(current_epoch, current_iteration)
+            self._print_current_errors(current_epoch, total_iteration, time_per_iter)
+            self._write_wandb(current_epoch, total_iteration)
 
-        self._end_of_iteration(data, current_epoch, current_iteration)
+        self._end_of_iteration(data, current_epoch, total_iteration)
 
         if iter_counter.needs_displaying() and is_main_process():
             self.save_image(data, False)
@@ -132,12 +133,12 @@ class BaseTrainer(object):
         if iter_counter.needs_saving() and is_main_process():
             self.save_checkpoint(iter_counter.total_steps_so_far)
             self.save_checkpoint('latest')
-    def _write_wandb(self, current_epoch, current_iteration):
+    def _write_wandb(self, current_epoch, total_iteration):
         log_dict = {}
         for loss_name, losses in self.loss_dict.items():
             log_dict['model_update' + '/' + loss_name] = losses
         log_dict['epoch'] = current_epoch
-        log_dict['iter']= current_iteration
+        log_dict['iter']= total_iteration
         if self.opt.image_to_wandb :
             self.wandb.log(log_dict)
     def _print_current_errors(self, current_epoch, current_iteration, time_per_iter):
@@ -152,10 +153,10 @@ class BaseTrainer(object):
             log_file.write('%s\n' % message)
 
 
-    def save_image(self, data, is_valid):
+    def save_image(self, data, is_valid, num_grid=1):
         samples, filename = self._get_visualizations(data, is_valid)
-        gt_grid = image_frame_to_grid(data['ct']) * 255
-        gen_grid = image_frame_to_grid(samples) * 255
+        gt_grid = image_frame_to_grid(data['ct'][:num_grid]) * 255
+        gen_grid = image_frame_to_grid(samples[:num_grid]) * 255
         diff = torch.abs(gt_grid-gen_grid)
         vis = torch.cat([gt_grid, gen_grid, diff], 0)
 

@@ -43,6 +43,8 @@ def get_model_optimizer_and_scheduler(opt):
     model = network(opt.model.param).to(opt.device)
     model_ema = network(opt.model.param).to(opt.device)
     model_ema.eval()
+
+    model.init_weights(init_type='xavier', gain=0.02)
     accumulate(model_ema, model, 0)
     print('net [{}] parameter count: {:,}'.format(
         'model', _calculate_model_size(model)))
@@ -122,6 +124,5 @@ def get_optimizer_for_params(opt_opt, params):
         raise NotImplementedError(
             'Optimizer {} is not yet implemented.'.format(opt_opt.type))
     return opt
-
 
 

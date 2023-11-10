@@ -38,7 +38,7 @@ def ddim_steps(x, seq, model, b, x_cond, diffusion = None, **kwargs):
             at = compute_alpha(b, t.long())
             at_next = compute_alpha(b, next_t.long())
         
-            et = model.forward_with_cond_scale(x = [x, start], t = t, cond = x_cond, cond_scale = 2)[0]
+            et = model.forward_with_cond_scale(x = [xt, start], t = t, cond = x_cond, cond_scale = 1)[0]
             et, model_var_values = torch.split(et, 1, dim=1)
             x0_t = (xt - et * (1 - at).sqrt()) / at.sqrt()
             #x0_preds.append(x0_t.to('cpu'))
@@ -57,7 +57,7 @@ def ddim_steps(x, seq, model, b, x_cond, diffusion = None, **kwargs):
 
 
 def make_beta_schedule(
-    schedule, n_timestep, linear_start=1e-4, linear_end=2e-2, cosine_s=8e-3
+    schedule, n_timestep, linear_start=0.0001, linear_end=2e-2, cosine_s=8e-3
 ):
     if schedule == "quad":
         betas = (
@@ -320,8 +320,9 @@ class GaussianDiffusion:
         if x_cond is None:
             model_output = model(x, self._scale_timesteps(t), **model_kwargs)
         else:
-            [cond, target_pose] = x_cond
-            model_output, cond_output, uncond_output = model.forward_with_cond_scale(x = torch.cat([x, target_pose],1), t = self._scale_timesteps(t), cond = cond, cond_scale = cond_scale)
+            if len(x_cond) == 2 :
+                x_cond, start = x_cond
+            model_output, cond_output, uncond_output = model.forward_with_cond_scale(x = [x, start], t = self._scale_timesteps(t), cond = x_cond, cond_scale = cond_scale)
 
         model_mean, model_variance, model_log_variance, pred_xstart = get_mean_var_from_eps(model_output)
 
@@ -496,7 +497,7 @@ class GaussianDiffusion:
         :param progress: if True, show a tqdm progress bar.
         :return: a non-differentiable batch of samples.
         """
-        shape = x_cond[0].shape
+        x_cond, shape = x_cond[:2], x_cond[2]
         final = None
         x_cond[0] = [model.encode(x_cond[0])['cond'], model.encode(torch.zeros_like(x_cond[0]))['cond']]
 
@@ -564,7 +565,7 @@ class GaussianDiffusion:
             with th.no_grad():
                 out = self.p_sample(
                     model,
-                    x_cond[:2],
+                    x_cond,
                     img,
                     cond_scale,
                     t,

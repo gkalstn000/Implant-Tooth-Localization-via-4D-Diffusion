@@ -122,7 +122,7 @@ class BeatGANsAutoencModel(BeatGANsUNetModel):
         logits = self.forward(x, t, cond=cond, prob = 1)
 
         if cond_scale == 1:
-            return [logits, _, _]
+            return [logits, None, None]
 
         null_logits = self.forward(x, t, cond=cond, prob = 0)
 
@@ -320,25 +320,12 @@ class TimeStyleSeperateEmbed(nn.Module):
 class EightLayerFC(nn.Module):
     def __init__(self, input_size, hidden_size, output_size):
         super(EightLayerFC, self).__init__()
-        # Define the five fully connected layers
-        self.fc1 = nn.Linear(input_size, hidden_size)
-        self.norm1 = nn.BatchNorm1d(hidden_size)
-        self.fc2 = nn.Linear(hidden_size, hidden_size)
-        self.norm2 = nn.BatchNorm1d(hidden_size)
-        self.fc3 = nn.Linear(hidden_size, hidden_size)
-        self.norm3 = nn.BatchNorm1d(hidden_size)
-        self.fc4 = nn.Linear(hidden_size, hidden_size)
-        self.norm4 = nn.BatchNorm1d(hidden_size)
-        self.fc5 = nn.Linear(hidden_size, output_size)
-
-        # Activation function
-        self.relu = nn.ReLU()
+        self.layers = nn.Sequential(
+            nn.Linear(input_size, hidden_size),  # 3차원 입력을 64차원으로 매핑
+            nn.ReLU(),  # 비선형 활성화 함수
+            nn.Dropout(p=0.5),
+            nn.Linear(hidden_size, output_size)  # 64차원을 최종적으로 128차원으로 매핑
+        )
 
     def forward(self, x):
-        # Forward pass through the network with normalization and activation
-        x = self.relu(self.norm1(self.fc1(x)))
-        x = self.relu(self.norm2(self.fc2(x)))
-        x = self.relu(self.norm3(self.fc3(x)))
-        x = self.relu(self.norm4(self.fc4(x)))
-        x = self.fc5(x)  # Output layer without a non-linearity
-        return x
+        return self.layers(x)

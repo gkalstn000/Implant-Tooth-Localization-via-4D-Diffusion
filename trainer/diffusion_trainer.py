@@ -88,7 +88,7 @@ class DiffusionTrainer(BaseTrainer):
             if self.opt.diffusion.sample_algorithm == 'ddpm':
                 print ('Sampling algorithm used: DDPM')
                 samples = self.diffusion.p_sample_loop(self.model_ema,
-                                                       x_cond = info,
+                                                       x_cond = [info, start, img_frame.shape],
                                                        progress = True,
                                                        cond_scale = self.opt.diffusion.cond_scale)
             elif self.opt.diffusion.sample_algorithm == 'ddim':
@@ -105,14 +105,4 @@ class DiffusionTrainer(BaseTrainer):
                 samples = xs[-1].cuda()
 
         return samples, filename
-
-
-
-
-
-
-
-
-
-
 
