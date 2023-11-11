@@ -11,6 +11,7 @@ from util.distributed import is_master, master_only, is_main_process
 from util.distributed import master_only_print as print
 import torch.distributed as dist
 from PIL import Image
+from util.util import print_PILimg
 class BaseTrainer(object):
     def __init__(self,
                  opt,
@@ -130,8 +131,9 @@ class BaseTrainer(object):
         if iter_counter.needs_displaying() and is_main_process():
             self.save_image(data, False)
         # Save everything to the checkpoint.
-        if iter_counter.needs_saving() and is_main_process():
+        if iter_counter.needs_saving_regular() and is_main_process():
             self.save_checkpoint(iter_counter.total_steps_so_far)
+        if iter_counter.needs_saving() and is_main_process():
             self.save_checkpoint('latest')
     def _write_wandb(self, current_epoch, total_iteration):
         log_dict = {}
@@ -174,14 +176,6 @@ class BaseTrainer(object):
             image.save(os.path.join(save_path, filename_cat))
             if self.opt.image_to_wandb :
                 self.wandb.log({f'{tag} samples': self.wandb.Image(image)})
-
-    def _get_save_path(self, subdir, ext):
-        subdir_path = os.path.join(self.opt.logdir, subdir)
-        if not os.path.exists(subdir_path):
-            os.makedirs(subdir_path, exist_ok=True)
-        return os.path.join(
-            subdir_path, 'epoch_{:05}_iteration_{:09}.{}'.format(
-                self.current_epoch, self.current_iteration, ext))
 
     def _start_of_epoch(self, current_epoch):
         pass
@@ -228,7 +222,7 @@ def _save_checkpoint(opt,
         },
         save_path,
     )
-    print(f'Save Checkpoints {latest_checkpoint_path} Done')
+    print(f'Save Checkpoints {save_path} Done')
     return save_path
 
 def image_frame_to_grid(frame) :

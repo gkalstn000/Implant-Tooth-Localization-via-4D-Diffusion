@@ -13,7 +13,7 @@ from trainer import accumulate
 from trainer.base import BaseTrainer
 from models.diffusion import ddim_steps
 from collections import defaultdict
-
+from util.util import print_PILimg
 class DiffusionTrainer(BaseTrainer):
     def __init__(self,
                  opt,
