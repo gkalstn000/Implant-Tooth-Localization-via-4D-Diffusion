@@ -52,7 +52,7 @@ if __name__ == '__main__':
         # opt.save_latest_freq= 1
         # opt.save_epoch_freq= 1
         opt.data.train.batch_size=2
-
+        opt.image_to_wandb = False
 
     if not args.single_gpu:
         opt.local_rank = local_rank

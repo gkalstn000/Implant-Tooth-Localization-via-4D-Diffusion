@@ -3,8 +3,9 @@ image_to_wandb: True
 display_freq: 5000
 print_freq: 100
 save_latest_freq: 2000
-save_epoch_freq: 400
-max_epoch: 2000
+save_regular_freq: 15000
+save_epoch_freq: 10000
+max_epoch: 12000
 
 
 data:
