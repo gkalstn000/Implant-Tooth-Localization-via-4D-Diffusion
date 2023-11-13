@@ -93,7 +93,7 @@ class DiffusionTrainer(BaseTrainer):
                                                        cond_scale = self.opt.diffusion.cond_scale)
             elif self.opt.diffusion.sample_algorithm == 'ddim':
                 print ('Sampling algorithm used: DDIM')
-                nsteps = 50
+                nsteps = 150
                 noise = torch.randn(img_frame.shape).cuda()
                 seq = range(0, 1000, 1000//nsteps)
                 betas = self.diffusion.betas
