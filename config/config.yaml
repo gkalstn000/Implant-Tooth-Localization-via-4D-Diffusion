@@ -24,7 +24,7 @@ data:
       batch_size: 8          # real_batch_size: 4 * 2 (source-->target & target --> source) * 2 (GPUs) = 16
       distributed: True
     val:
-      batch_size: 2
+      batch_size: 4
       distributed: True
 
 model:
