@@ -80,11 +80,11 @@ if __name__ == '__main__':
     for i, data_i in enumerate(tqdm(val_dataset)):
         samples, filenames = trainer._get_visualizations(data_i, True)
         for i in range(samples.size(0)) :
-            gt_grid = image_frame_to_grid(data_i['ct'][i:i+1]) * 255
-            gen_grid = image_frame_to_grid(samples[i:i+1]) * 255
-            diff = torch.abs(gt_grid-gen_grid)
-
-            vis = torch.cat([gt_grid, gen_grid], 0)
+            gt_grid = image_frame_to_grid(data_i['ct'][i:i+1], False) * 255
+            gen_grid = image_frame_to_grid(samples[i:i+1], False) * 255
+            diff = image_frame_to_grid(torch.abs(data_i['ct'][i:i+1].cuda()-samples[i:i+1]), True) * 255
+            diff = torch.where(diff < 150, 0, diff)
+            vis = torch.cat([gt_grid, gen_grid, diff], 0)
             vis = Image.fromarray(vis.cpu().numpy().astype(np.uint8).squeeze())
             filename = filenames[i]
             vis.save(os.path.join(save_root, filename+'.png'))

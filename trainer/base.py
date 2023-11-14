@@ -225,12 +225,16 @@ def _save_checkpoint(opt,
     print(f'Save Checkpoints {save_path} Done')
     return save_path
 
-def image_frame_to_grid(frame) :
+def image_frame_to_grid(frame, norm=True) :
     frame = frame.cuda()
     b, c, f, h, w = frame.size()
-    # Normalize
-    min_HW, max_HW = get_min_max_over_HW(frame)
-    frame = (frame - min_HW) / (max_HW - min_HW)
+    if norm:
+        # Normalize
+        min_HW, max_HW = get_min_max_over_HW(frame)
+        frame = (frame - min_HW) / (max_HW - min_HW)
+    else :
+        # Clamp
+        frame = (torch.clamp(frame, -1, 1) + 1) / 2
 
     frame = frame.permute(0, 3, 2, 4, 1).contiguous().view(b, h, w*f, c)
     grid_image = frame.permute(1, 0, 2, 3).contiguous().view(h, w * f * b, c)
