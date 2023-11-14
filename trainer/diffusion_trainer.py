@@ -93,16 +93,16 @@ class DiffusionTrainer(BaseTrainer):
                                                        cond_scale = self.opt.diffusion.cond_scale)
             elif self.opt.diffusion.sample_algorithm == 'ddim':
                 print ('Sampling algorithm used: DDIM')
-                nsteps = 150
+                nsteps = 50
                 noise = torch.randn(img_frame.shape).cuda()
-중                # q_sasmple
-                corrupt_level = 300
-                t = torch.tensor([corrupt_level] * img_frame.size(0))
+                # q_sasmple
+                corrupt_level = 500
+                t = torch.tensor([corrupt_level] * img_frame.size(0)).to(img_frame.device)
                 x_t = self.diffusion.q_sample(img_frame, t, noise=noise)
 
                 seq = range(0, corrupt_level, corrupt_level//nsteps)
-                betas = self.diffusion.betas
-                xs, x0_preds = ddim_steps(x= [noise, start],
+                betas = self.diffusion.betas[:corrupt_level]
+                xs, x0_preds = ddim_steps(x= [x_t, start],
                                           seq= seq,
                                           model= self.model_ema,
                                           b= torch.tensor(betas).float().cuda(),
