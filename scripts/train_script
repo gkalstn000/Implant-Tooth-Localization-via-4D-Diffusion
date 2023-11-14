@@ -1,3 +1,4 @@
 CUDA_VISIBLE_DEVICES=3 nohup python -m torch.distributed.launch --nproc_per_node=1 --master_port 25121 train.py --exp_name diffusion_ct_base > diffusion_ct_base.out &
 CUDA_VISIBLE_DEVICES=3 nohup python -m torch.distributed.launch --nproc_per_node=1 --master_port 25121 train.py --exp_name diffusion_ct_nobatch > diffusion_ct_nobatch.out &
+CUDA_VISIBLE_DEVICES=2 nohup python -m torch.distributed.launch --nproc_per_node=1 --master_port 15121 train.py --exp_name 256_gaussian > 256_gaussian.out &
 

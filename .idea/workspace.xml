@@ -4,20 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7b0d82bf-871f-48a2-a331-984a2fde06b9" name="Changes" comment="open-ai diffusion 적용&#10;no conditional 생성 우선적으로&#10;안해도될듯">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/cad.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/deployment.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+    <list default="true" id="7b0d82bf-871f-48a2-a331-984a2fde06b9" name="Changes" comment="sampling corrupt 및 test code 중간완료&#10;* 전체 frame 출력하는 test code 필요">
+      <change beforePath="$PROJECT_DIR$/.idea/cad.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/cad.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/config.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/diffusion_ct_base.out" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/diffusion.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/diffusion.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/unet_autoenc.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/unet_autoenc.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trainer/diffusion_trainer.py" beforeDir="false" afterPath="$PROJECT_DIR$/trainer/diffusion_trainer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/train_script" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/train_script" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,7 +25,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="open-ai-diffusion" />
+        <entry key="$PROJECT_DIR$" value="diffusion_ct_nobatch" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -82,9 +73,9 @@
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.test">
+  <component name="RunManager" selected="Python.train_">
     <configuration name="test" type="PythonConfigurationType" factoryName="Python">
-      <module name="CAD" />
+      <module name="cad" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -99,7 +90,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="torch.distributed.launch" />
-      <option name="PARAMETERS" value="--nproc_per_node=1 --master_port 25383 test.py --exp_name diffusion_ct_nobatch --save_name t" />
+      <option name="PARAMETERS" value="--nproc_per_node=1 --master_port 25383 test.py --exp_name diffusion_ct_nobatch --save_name corrupt_300_clamp --sample_algorithm ddim" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="true" />
@@ -123,7 +114,31 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="torch.distributed.launch" />
-      <option name="PARAMETERS" value="--nproc_per_node=1 --master_port 25383 train.py --exp_name test --debug --no_resume" />
+      <option name="PARAMETERS" value="--nproc_per_node=1 --master_port 15121 train.py --exp_name test --debug --no_resume" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="true" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="train_" type="PythonConfigurationType" factoryName="Python">
+      <module name="cad" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="CUDA_VISIBLE_DEVICES" value="2" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="SDK_NAME" value="Remote Python 3.8.0 (sftp://minsu@166.104.246.71:7003/home/minsu/.conda/envs/cad/bin/python3.8)" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="torch.distributed.launch" />
+      <option name="PARAMETERS" value="--nproc_per_node=1 --master_port 15121 train.py --exp_name test --debug --no_resume" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="true" />
@@ -134,6 +149,7 @@
     <list>
       <item itemvalue="Python.train" />
       <item itemvalue="Python.test" />
+      <item itemvalue="Python.train_" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -151,6 +167,7 @@
       <workItem from="1699512553898" duration="31265000" />
       <workItem from="1699936549208" duration="91000" />
       <workItem from="1699936679280" duration="391000" />
+      <workItem from="1699937080746" duration="6899000" />
     </task>
     <task id="LOCAL-00001" summary="diffusion base">
       <option name="closed" value="true" />
@@ -192,7 +209,23 @@
       <option name="project" value="LOCAL" />
       <updated>1699600815762</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="sampling corrupt 설정중">
+      <option name="closed" value="true" />
+      <created>1699937338708</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1699937338708</updated>
+    </task>
+    <task id="LOCAL-00007" summary="sampling corrupt 및 test code 중간완료&#10;* 전체 frame 출력하는 test code 필요">
+      <option name="closed" value="true" />
+      <created>1699959474640</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1699959474640</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -214,7 +247,9 @@
     <MESSAGE value="diffusion 기타버그사항 수정&#10;* 모델초기화&#10;* DDPM sampling 드등" />
     <MESSAGE value="x_100에서는 denoising이 되는데 z에서는 denoising이 안됨..&#10;step 2000으로 늘려서 x_T ~ z에 가깝게 만들어줘봄" />
     <MESSAGE value="open-ai diffusion 적용&#10;no conditional 생성 우선적으로&#10;안해도될듯" />
-    <option name="LAST_COMMIT_MESSAGE" value="open-ai diffusion 적용&#10;no conditional 생성 우선적으로&#10;안해도될듯" />
+    <MESSAGE value="sampling corrupt 설정중" />
+    <MESSAGE value="sampling corrupt 및 test code 중간완료&#10;* 전체 frame 출력하는 test code 필요" />
+    <option name="LAST_COMMIT_MESSAGE" value="sampling corrupt 및 test code 중간완료&#10;* 전체 frame 출력하는 test code 필요" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -255,9 +290,14 @@
           <option name="timeStamp" value="170" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/trainer/diffusion_trainer.py</url>
-          <line>104</line>
-          <option name="timeStamp" value="171" />
+          <url>file://$PROJECT_DIR$/test.py</url>
+          <line>86</line>
+          <option name="timeStamp" value="174" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/test.py</url>
+          <line>85</line>
+          <option name="timeStamp" value="175" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
@@ -272,6 +312,8 @@
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/CAD$base_options.coverage" NAME="base_options Coverage Results" MODIFIED="1698906784583" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/options" />
     <SUITE FILE_PATH="coverage/CAD$train.coverage" NAME="train Coverage Results" MODIFIED="1699604398418" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/CAD$torch_distributed_launch.coverage" NAME="test Coverage Results" MODIFIED="1699942512781" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/CAD$train_.coverage" NAME="train_ Coverage Results" MODIFIED="1699959607320" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/CAD$prepare_dataset.coverage" NAME="prepare_dataset Coverage Results" MODIFIED="1698905898796" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/data" />
     <SUITE FILE_PATH="coverage/CAD$cad_dataset.coverage" NAME="cad_dataset Coverage Results" MODIFIED="1698906778699" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/data" />
   </component>
