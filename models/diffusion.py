@@ -23,7 +23,7 @@ def compute_alpha(beta, t):
     return a
 
 
-def ddim_steps(x, seq, model, b, x_cond, diffusion = None, **kwargs):
+def ddim_steps(x, seq, model, b, x_cond, diffusion = None, cond_scale=2, **kwargs):
     x_cond = [model.encode(x_cond)['cond'], model.encode(torch.zeros_like(x_cond))['cond']]
     x, start = x
     with torch.no_grad():
@@ -32,13 +32,13 @@ def ddim_steps(x, seq, model, b, x_cond, diffusion = None, **kwargs):
         x0_preds = []
         xs = [x]
         xt = x
-        for i, j in zip(tqdm.tqdm(reversed(seq)), reversed(seq_next)):
+        for i, j in zip(reversed(seq), reversed(seq_next)):
             t = (torch.ones(n) * i).to(x.device)
             next_t = (torch.ones(n) * j).to(x.device)
             at = compute_alpha(b, t.long())
             at_next = compute_alpha(b, next_t.long())
         
-            et = model.forward_with_cond_scale(x = [xt, start], t = t, cond = x_cond, cond_scale = 1)[0]
+            et = model.forward_with_cond_scale(x = [xt, start], t = t, cond = x_cond, cond_scale = cond_scale)[0]
             et, model_var_values = torch.split(et, 1, dim=1)
             x0_t = (xt - et * (1 - at).sqrt()) / at.sqrt()
             #x0_preds.append(x0_t.to('cpu'))
