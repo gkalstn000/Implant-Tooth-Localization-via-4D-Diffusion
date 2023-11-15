@@ -5,7 +5,7 @@ print_freq: 100
 save_latest_freq: 2000
 save_regular_freq: 15000
 save_epoch_freq: 10000
-max_epoch: 12000
+max_epoch: 24000
 
 
 data:
@@ -24,7 +24,7 @@ data:
       batch_size: 8          # real_batch_size: 4 * 2 (source-->target & target --> source) * 2 (GPUs) = 16
       distributed: True
     val:
-      batch_size: 4
+      batch_size: 8
       distributed: True
 
 model:

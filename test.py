@@ -4,11 +4,12 @@ import wandb
 import torch
 import numpy as np
 from tqdm import tqdm
+import pandas as pd
 from PIL import Image
 import data
 from trainer.base import image_frame_to_grid
 from util.distributed import init_distributed, is_main_process
-from util.util import set_random_seed
+from util.util import set_random_seed, save_videos_as_files
 from config.config import Config
 from models.diffusion import make_beta_schedule, create_gaussian_diffusion
 import trainer
@@ -30,7 +31,7 @@ def parse_args():
     # for DDP
     parser.add_argument('--local-rank', type=int, default=0)
     parser.add_argument('--single_gpu', action='store_true')
-    parser.add_argument('--sample_algorithm', type=str, default='ddpm')
+    parser.add_argument('--sample_algorithm', type=str, default='ddim')
 
 
     args = parser.parse_args()
@@ -75,18 +76,18 @@ if __name__ == '__main__':
                                   wandb)
     trainer.load_checkpoint(opt, args.which_iter)
 
-
+    score_dict = {'filename': [],
+                  'score': [],
+                  'label': []}
 
     for i, data_i in enumerate(tqdm(val_dataset)):
-        samples, filenames = trainer._get_visualizations(data_i, True)
-        for i in range(samples.size(0)) :
-            gt_grid = image_frame_to_grid(data_i['ct'][i:i+1], False) * 255
-            gen_grid = image_frame_to_grid(samples[i:i+1], False) * 255
-            diff = image_frame_to_grid(torch.abs(data_i['ct'][i:i+1].cuda()-samples[i:i+1]), True) * 255
-            diff = torch.where(diff < 150, 0, diff)
-            vis = torch.cat([gt_grid, gen_grid, diff], 0)
-            vis = Image.fromarray(vis.cpu().numpy().astype(np.uint8).squeeze())
-            filename = filenames[i]
-            vis.save(os.path.join(save_root, filename+'.png'))
+        samples, filenames, labels, scores = trainer.test(data_i)
+        save_videos_as_files(samples, save_root, filenames, labels)
 
+        score_dict['filename'].extend(filenames)
+        score_dict['score'].extend(scores)
+        score_dict['label'].extend(labels.tolist())
+
+    score_df = pd.DataFrame.from_dict(score_dict)
+    score_df.to_csv(os.path.join(save_root, 'scores.csv'), index=False)
     print('Test was successfully finished.')

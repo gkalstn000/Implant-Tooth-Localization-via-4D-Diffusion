@@ -57,9 +57,16 @@ class CadDataset(BaseDataset) :
 
         assert clip_index == len(ct_list), 'CT frame 개수가 100개보다 적음'
         image_frame = []
-        for file in ct_list[start:start+self.opt.sub_frame] :
-            image, param = self.get_image_tensor(file[:-1])
-            image_frame.append(image)
+
+        if self.is_inference :
+            for file in ct_list:
+                image, param = self.get_image_tensor(file[:-1])
+                image_frame.append(image)
+            start = 0
+        else :
+            for file in ct_list[start:start+self.opt.sub_frame] :
+                image, param = self.get_image_tensor(file[:-1])
+                image_frame.append(image)
 
         image_frame = torch.stack(image_frame, 1)
         patient_info = torch.tensor([sex, age, xraytube])
@@ -67,7 +74,8 @@ class CadDataset(BaseDataset) :
         return {'ct': image_frame,
                 'info': patient_info,
                 'start_frame': start,
-                'filename': filename}
+                'filename': filename,
+                'label': label}
 
     def __len__(self):
         return len(self.df)

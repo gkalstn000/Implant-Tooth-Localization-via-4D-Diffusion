@@ -1,7 +1,7 @@
 import os
 import math
 import importlib
-from tqdm import tqdm
+from tqdm import tqdm, trange
 import random
 import numpy as np
 from torch import nn, optim
@@ -112,3 +112,28 @@ class DiffusionTrainer(BaseTrainer):
 
         return samples, filename
 
+    def test(self, data):
+        sub_frame = self.opt.data.sub_frame
+        maxframe = self.opt.data.maxframe
+        steps = maxframe // sub_frame
+
+        filenames = data['filename']
+        labels = data['label']
+
+        frame_fake = []
+
+        for step in trange(steps, desc='making ct frame') :
+            start = step * sub_frame
+            idx = list(range(start, start+sub_frame))
+            data_sub = {key:val[:, :, idx] if key == 'ct' else val for key, val in data.items()}
+            data_sub['start_frame'] += start
+            samples, _ = self._get_visualizations(data_sub, True)
+            frame_fake.append(samples.cpu())
+
+        frame_fake = (torch.clamp(torch.cat(frame_fake, 2), -1, 1) + 1) / 2
+        frame_real = (data['ct'][:, :, :steps*sub_frame] + 1) / 2
+        diff = torch.where(frame_real - frame_fake < 0, 0,  frame_real - frame_fake)
+        # diff = torch.where(diff < 0.5, 0, diff)
+        samples = torch.cat([frame_real, frame_fake, diff], -1)*255
+        scores = diff.sum((1, 2, 3, 4))**0.5
+        return samples, filenames, labels, scores.tolist()

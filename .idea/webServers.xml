@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="076dd53a-0397-418b-bee5-ab25d1723a69" name="cad">
+        <fileTransfer rootFolder="/home/minsu" accessType="SFTP" host="166.104.246.71" port="7003" sshConfigId="89185359-321b-428e-9d80-893833dac568" sshConfig="minsu@166.104.246.71:7003 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

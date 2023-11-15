@@ -198,7 +198,7 @@ class BaseTrainer(object):
     def optimize_parameters(self, data):
         raise NotImplementedError
 
-    def test(self, data_loader, output_dir, current_iteration):
+    def test(self, data):
         raise NotImplementedError
 
 @master_only
