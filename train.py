@@ -96,5 +96,5 @@ if __name__ == '__main__':
 
         iter_counter.record_epoch_end()
         # trainer.end_of_epoch(val_dataset, iter_counter)
-
+    trainer.save_checkpoint('latest')
     print('Training was successfully finished.')
