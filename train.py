@@ -12,7 +12,7 @@ import wandb
 def parse_args():
     parser = argparse.ArgumentParser(description='Training')
     # Config path
-    parser.add_argument('--config', type=str, default='./config/config.yaml', help='training config dir')
+    parser.add_argument('--config', type=str, default='./config/config_ct.yaml', help='training config dir')
     # experiment specifics
     parser.add_argument('--exp_name', type=str, default='diffusion', help='name of the experiment. It decides where to store samples and models')
     parser.add_argument('--model', type=str, default='diffusion', help='name of the model. [diffusion, VAE]')
@@ -45,6 +45,9 @@ if __name__ == '__main__':
     opt.save_root = save_root
     opt.model.param.maxframe = opt.data.maxframe
     opt.model.param.sub_frame = opt.data.sub_frame
+    if not isinstance(opt.data.resolution, int) :
+        h, w = opt.data.resolution.split(',')
+        opt.data.resolution = (int(h), int(w))
     # Debug setting
     if args.debug :
         opt.display_freq= 1

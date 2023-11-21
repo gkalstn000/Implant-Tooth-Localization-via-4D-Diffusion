@@ -9,7 +9,9 @@ import torchvision.transforms as transforms
 import numpy as np
 from PIL import Image
 from io import BytesIO
-
+import lmdb
+import pandas as pd
+import os
 import random
 
 
@@ -17,12 +19,38 @@ class BaseDataset(data.Dataset):
     def __init__(self):
         super(BaseDataset, self).__init__()
 
-    @staticmethod
-    def modify_commandline_options(parser, is_train):
-        return parser
-
     def initialize(self, opt, is_inference):
-        pass
+        self.opt = opt
+        self.load_size = (opt.resolution, opt.resolution) if isinstance(opt.resolution, int) else opt.resolution
+        self.maxframe = opt.maxframe
+        self.is_inference = is_inference
+        self.df = self.get_paths(os.path.join(opt.path, opt.name))
+        self.preprocess_mode = opt.preprocess_mode
+        self.scale_param = opt.scale_param if not is_inference else 0
+
+        path = os.path.join(opt.path, opt.name)
+        self.env = lmdb.open(
+            path,
+            max_readers=32,
+            readonly=True,
+            lock=False,
+            readahead=False,
+            meminit=False,
+        )
+
+    def get_paths(self, root):
+        if self.is_inference :
+            df1 = pd.read_csv(os.path.join(root, 'positive.csv'))
+            df2 = pd.read_csv(os.path.join(root, f'negative_{self.opt.test_fold}.csv'))
+            df = pd.concat([df1, df2], axis=0).reset_index(drop=True)
+        else :
+            fold_list = [1, 2, 3]
+            fold_list.pop(fold_list.index(self.opt.test_fold))
+            df1 = pd.read_csv(os.path.join(root, f'negative_{fold_list[0]}.csv'))
+            df2 = pd.read_csv(os.path.join(root, f'negative_{fold_list[1]}.csv'))
+            df = pd.concat([df1, df2], axis=0).reset_index(drop=True)
+
+        return df
 
     def get_image_tensor(self, path):
         with self.env.begin(write=False) as txn:

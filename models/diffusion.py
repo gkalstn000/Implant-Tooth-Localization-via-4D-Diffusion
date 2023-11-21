@@ -56,6 +56,31 @@ def ddim_steps(x, seq, model, b, x_cond, diffusion = None, cond_scale=2, **kwarg
     return [xt], x0_preds
 
 
+def ddim_steps_no_cond(x, seq, model, b, diffusion=None, cond_scale=2, **kwargs):
+    x, start = x
+    with torch.no_grad():
+        n = x.size(0)
+        seq_next = [-1] + list(seq[:-1])
+        x0_preds = []
+        xs = [x]
+        xt = x
+        for i, j in zip(reversed(seq), reversed(seq_next)):
+            t = (torch.ones(n) * i).to(x.device)
+            next_t = (torch.ones(n) * j).to(x.device)
+            at = compute_alpha(b, t.long())
+            at_next = compute_alpha(b, next_t.long())
+
+            et = model(x=[xt, start], t=t)
+            et, model_var_values = torch.split(et, 1, dim=1)
+            x0_t = (xt - et * (1 - at).sqrt()) / at.sqrt()
+            # x0_preds.append(x0_t.to('cpu'))
+            c1 = (
+                    kwargs.get("eta", 0) * ((1 - at / at_next) * (1 - at_next) / (1 - at)).sqrt()
+            )
+            c2 = ((1 - at_next) - c1 ** 2).sqrt()
+            xt = at_next.sqrt() * x0_t + c1 * torch.randn_like(x) + c2 * et
+
+    return [xt], x0_preds
 def make_beta_schedule(
     schedule, n_timestep, linear_start=0.0001, linear_end=2e-2, cosine_s=8e-3
 ):

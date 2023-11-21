@@ -15,7 +15,7 @@ from trainer.base import BaseTrainer
 from models.diffusion import ddim_steps
 from collections import defaultdict
 from util.util import print_PILimg
-class DiffusionTrainer(BaseTrainer):
+class Trainer(BaseTrainer):
     def __init__(self,
                  opt,
                  diffusion, model,
@@ -24,7 +24,7 @@ class DiffusionTrainer(BaseTrainer):
                  scheduler,
                  train_data_loader, val_data_loader=None,
                  wandb=None):
-        super(DiffusionTrainer, self).__init__(opt,
+        super(Trainer, self).__init__(opt,
                                                diffusion, model,
                                                model_ema,
                                                optimizer,
@@ -33,7 +33,6 @@ class DiffusionTrainer(BaseTrainer):
                                                wandb)
 
         self.accum = 0.5 ** (32 / (10 * 1000))
-        self.log_size = int(math.log(opt.data.resolution, 2))
         height = width = opt.data.resolution
         self.load_size = (int(height), int(width))
 

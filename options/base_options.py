@@ -19,7 +19,7 @@ class BaseOptions():
         parser.add_argument('--id', type=str, default='spain', help='name of the experiment. It decides where to store samples and models')
         parser.add_argument('--model', type=str, default='dptn',help='name of the model.')
         parser.add_argument('--checkpoints_dir', type=str, default='./checkpoints', help='models are saved here')
-        parser.add_argument('--train_config', type=str, default='./config/config.yaml', help='training config dir')
+        parser.add_argument('--train_config', type=str, default='./config/config_ct.yaml', help='training config dir')
         parser.add_argument('--diffusion_config', type=str, default='./config/diffusion_config.yaml', help='training config dir')
         # input/output sizes
         parser.add_argument('--batchSize', type=int, default=3, help='input batch size')

@@ -343,17 +343,22 @@ class BeatGANsUNetModel(nn.Module):
             # emb = emb + self.label_emb(y)
 
         # new code supports input_num_blocks != output_num_blocks
+        x, frame_start = x
         h = x.type(self.dtype)
         k = 0
         for i in range(len(self.input_num_blocks)):
             for j in range(self.input_num_blocks[i]):
-                h = self.input_blocks[k](h, emb=emb)
+                h = self.input_blocks[k](h,
+                                         emb=emb,
+                                         start_frame_index=frame_start)
                 # print(i, j, h.shape)
                 hs[i].append(h)
                 k += 1
         assert k == len(self.input_blocks)
 
-        h = self.middle_block(h, emb=emb)
+        h = self.middle_block(h,
+                              emb=emb,
+                              start_frame_index=frame_start)
         k = 0
         for i in range(len(self.output_num_blocks)):
             for j in range(self.output_num_blocks[i]):
@@ -365,12 +370,15 @@ class BeatGANsUNetModel(nn.Module):
                 except IndexError:
                     lateral = None
                     # print(i, j, lateral)
-                h = self.output_blocks[k](h, emb=emb, lateral=lateral)
+                h = self.output_blocks[k](h,
+                                          emb=emb,
+                                          lateral=lateral,
+                                          start_frame_index=frame_start)
                 k += 1
 
         h = h.type(x.dtype)
         pred = self.out(h)
-        return Return(pred=pred)
+        return pred
 
     def init_weights(self, init_type='normal', gain=0.02):
         def init_func(m):

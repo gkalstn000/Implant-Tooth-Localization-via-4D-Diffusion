@@ -84,7 +84,7 @@ def get_file_list_from_PatientID(df) :
 
         filelist = []
 
-        for index in range(df.MiddleNum.max()) :
+        for index in range(16) :
             formatted_index = '{:02}'.format(index)
             save_path = os.path.join('cad', 'PeX-ray', filename, 'middle', f'{formatted_index}-drr.png')
             filelist.append(save_path)
@@ -123,15 +123,15 @@ negative_fold_2_df = get_file_list_from_PatientID(negative_fold_2_df)
 negative_fold_3_df = get_file_list_from_PatientID(negative_fold_3_df)
 
 # Save csv files
-positive_df.to_csv(os.path.join(dataroot, 'positive.csv'), index=False)
-negative_fold_1_df.to_csv(os.path.join(dataroot, 'negative_1.csv'), index=False)
-negative_fold_2_df.to_csv(os.path.join(dataroot, 'negative_2.csv'), index=False)
-negative_fold_3_df.to_csv(os.path.join(dataroot, 'negative_3.csv'), index=False)
+positive_df.to_csv(os.path.join(dataroot, 'xray',  'positive.csv'), index=False)
+negative_fold_1_df.to_csv(os.path.join(dataroot, 'xray', 'negative_1.csv'), index=False)
+negative_fold_2_df.to_csv(os.path.join(dataroot, 'xray', 'negative_2.csv'), index=False)
+negative_fold_3_df.to_csv(os.path.join(dataroot, 'xray', 'negative_3.csv'), index=False)
 
 #Save images
 xray_root = os.path.join(dataroot, 'PeX-ray')
 out = dataroot
-lmdb_save_path = os.path.join(out, '256-256_xray')
+lmdb_save_path = os.path.join(out, 'xray')
 os.makedirs(lmdb_save_path, exist_ok=True)
 n_worker = 8
 chunksize = 10

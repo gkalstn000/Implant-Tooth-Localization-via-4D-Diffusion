@@ -5,16 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7b0d82bf-871f-48a2-a331-984a2fde06b9" name="Changes" comment="gitignore">
-      <change afterPath="$PROJECT_DIR$/custom/df_anal.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/prepare_dataset_pex.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config/config_xray.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/xray_dataset.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trainer/xray_trainer.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/cad_dataset.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/cad_dataset.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/prepare_dataset.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/prepare_dataset_CBCT.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/config_ct.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/base_dataset.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/base_dataset.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/cad_dataset.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/ct_dataset.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/prepare_dataset_CBCT.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/prepare_dataset_CBCT.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/prepare_dataset_pex.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/prepare_dataset_pex.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/diffusion.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/diffusion.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/unet.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/unet.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/options/base_options.py" beforeDir="false" afterPath="$PROJECT_DIR$/options/base_options.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/train_script" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/train_script" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/train.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trainer/base.py" beforeDir="false" afterPath="$PROJECT_DIR$/trainer/base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trainer/diffusion_trainer.py" beforeDir="false" afterPath="$PROJECT_DIR$/trainer/diffusion_trainer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/util/util.py" beforeDir="false" afterPath="$PROJECT_DIR$/util/util.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/trainer/diffusion_trainer.py" beforeDir="false" afterPath="$PROJECT_DIR$/trainer/ct_trainer.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,7 +37,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="diffusion_ct_nobatch" />
+        <entry key="$PROJECT_DIR$" value="base_ct" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -58,12 +64,12 @@
     "WebServerToolWindowPanel.toolwindow.show.date": "false",
     "WebServerToolWindowPanel.toolwindow.show.permissions": "false",
     "WebServerToolWindowPanel.toolwindow.show.size": "false",
-    "last_opened_file_path": "/Volumes/dslab/CAD/data",
+    "last_opened_file_path": "/Volumes/dslab/CAD/trainer",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
-    "settings.editor.selected.configurable": "web.server",
+    "settings.editor.selected.configurable": "reference.settings.deploy.options",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -72,14 +78,14 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/data" />
-      <recent name="$PROJECT_DIR$/util" />
       <recent name="$PROJECT_DIR$/trainer" />
-      <recent name="$PROJECT_DIR$/models" />
+      <recent name="$PROJECT_DIR$/data" />
       <recent name="$PROJECT_DIR$/config" />
+      <recent name="$PROJECT_DIR$/util" />
+      <recent name="$PROJECT_DIR$/models" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.test">
     <configuration name="test" type="PythonConfigurationType" factoryName="Python">
       <module name="cad" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -96,7 +102,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="torch.distributed.launch" />
-      <option name="PARAMETERS" value="--nproc_per_node=1 --master_port 25383 test.py --exp_name 256_gaussian --save_name 256_gaussian_video --sample_algorithm ddim" />
+      <option name="PARAMETERS" value="--nproc_per_node=1 --master_port 25383 test.py --exp_name xray_128_1 --save_name xray_128_1 --sample_algorithm ddim" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="true" />
@@ -105,12 +111,12 @@
       <method v="2" />
     </configuration>
     <configuration name="train" type="PythonConfigurationType" factoryName="Python">
-      <module name="CAD" />
+      <module name="cad" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
-        <env name="CUDA_VISIBLE_DEVICES" value="2" />
+        <env name="CUDA_VISIBLE_DEVICES" value="0" />
       </envs>
       <option name="SDK_HOME" value="" />
       <option name="SDK_NAME" value="Remote Python 3.8.0 (sftp://minsu@166.104.246.71:7003/home/minsu/.conda/envs/cad/bin/python3.8)" />
@@ -120,7 +126,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="torch.distributed.launch" />
-      <option name="PARAMETERS" value="--nproc_per_node=1 --master_port 15121 train.py --exp_name test --debug --no_resume" />
+      <option name="PARAMETERS" value="--nproc_per_node=1 --master_port 21416 train.py --exp_name test --debug --no_resume" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="true" />
@@ -152,7 +158,32 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="x" type="PythonConfigurationType" factoryName="Python">
+      <module name="CAD" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="CUDA_VISIBLE_DEVICES" value="2" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="SDK_NAME" value="Remote Python 3.8.0 (sftp://minsu@166.104.246.71:7003/home/minsu/.conda/envs/cad/bin/python3.8)" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="torch.distributed.launch" />
+      <option name="PARAMETERS" value="--nproc_per_node=1 --master_port 15121 train.py --exp_name test --debug --no_resume" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="true" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <list>
+      <item itemvalue="Python.x" />
       <item itemvalue="Python.train" />
       <item itemvalue="Python.test" />
       <item itemvalue="Python.train_" />
@@ -278,12 +309,7 @@
           <option name="timeStamp" value="94" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/models/unet.py</url>
-          <line>349</line>
-          <option name="timeStamp" value="107" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/trainer/diffusion_trainer.py</url>
+          <url>file://$PROJECT_DIR$/trainer/ct_trainer.py</url>
           <line>55</line>
           <option name="timeStamp" value="170" />
         </line-breakpoint>
@@ -294,8 +320,28 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/data/prepare_dataset_CBCT.py</url>
-          <line>81</line>
-          <option name="timeStamp" value="177" />
+          <line>122</line>
+          <option name="timeStamp" value="200" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/data/ct_dataset.py</url>
+          <line>10</line>
+          <option name="timeStamp" value="203" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/data/ct_dataset.py</url>
+          <line>40</line>
+          <option name="timeStamp" value="204" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/train.py</url>
+          <line>91</line>
+          <option name="timeStamp" value="215" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/trainer/xray_trainer.py</url>
+          <line>110</line>
+          <option name="timeStamp" value="234" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
@@ -309,11 +355,12 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/CAD$base_options.coverage" NAME="base_options Coverage Results" MODIFIED="1698906784583" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/options" />
-    <SUITE FILE_PATH="coverage/CAD$prepare_dataset_pex.coverage" NAME="prepare_dataset_pex Coverage Results" MODIFIED="1700046511022" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/data" />
-    <SUITE FILE_PATH="coverage/CAD$train.coverage" NAME="train Coverage Results" MODIFIED="1699604398418" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/CAD$prepare_dataset_pex.coverage" NAME="prepare_dataset_pex Coverage Results" MODIFIED="1700188373639" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/data" />
     <SUITE FILE_PATH="coverage/CAD$df_anal.coverage" NAME="df_anal Coverage Results" MODIFIED="1700037667394" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/custom" />
-    <SUITE FILE_PATH="coverage/CAD$test.coverage" NAME="test Coverage Results" MODIFIED="1700037505548" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/CAD$train.coverage" NAME="train Coverage Results" MODIFIED="1700199532086" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/CAD$test.coverage" NAME="test Coverage Results" MODIFIED="1700549687331" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/CAD$torch_distributed_launch.coverage" NAME="test Coverage Results" MODIFIED="1699942512781" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/CAD$prepare_dataset_CBCT.coverage" NAME="prepare_dataset_CBCT Coverage Results" MODIFIED="1700184737951" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/data" />
     <SUITE FILE_PATH="coverage/CAD$train_.coverage" NAME="train_ Coverage Results" MODIFIED="1699959607320" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/CAD$prepare_dataset.coverage" NAME="prepare_dataset Coverage Results" MODIFIED="1700039404085" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/data" />
     <SUITE FILE_PATH="coverage/CAD$cad_dataset.coverage" NAME="cad_dataset Coverage Results" MODIFIED="1700041521514" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/data" />
