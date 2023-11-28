@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7b0d82bf-871f-48a2-a331-984a2fde06b9" name="Changes" comment="classifier 추가">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/prepare_dataset_pex.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/prepare_dataset_pex.py" afterDir="false" />
-    </list>
+    <list default="true" id="7b0d82bf-871f-48a2-a331-984a2fde06b9" name="Changes" comment="requirements&#10;readme" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -360,7 +356,15 @@
       <option name="project" value="LOCAL" />
       <updated>1700550635312</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="requirements&#10;readme">
+      <option name="closed" value="true" />
+      <created>1701156493670</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1701156493670</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -392,7 +396,8 @@
     <MESSAGE value="sampling corrupt 설정중" />
     <MESSAGE value="sampling corrupt 및 test code 중간완료&#10;* 전체 frame 출력하는 test code 필요" />
     <MESSAGE value="." />
-    <option name="LAST_COMMIT_MESSAGE" value="." />
+    <MESSAGE value="requirements&#10;readme" />
+    <option name="LAST_COMMIT_MESSAGE" value="requirements&#10;readme" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
