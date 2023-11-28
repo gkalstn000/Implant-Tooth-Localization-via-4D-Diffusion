@@ -95,7 +95,7 @@ def get_file_list_from_PatientID(df) :
 
     return pd.DataFrame.from_dict(df_new)
 
-dataroot = '/datasets/msha/cad'
+dataroot = './datasets'
 
 Implant_marking_df = pd.read_csv(os.path.join(dataroot, 'Implant_Marking.csv'))
 patient_statistics_df = pd.read_csv(os.path.join(dataroot, 'patient_statistics_info.csv'))

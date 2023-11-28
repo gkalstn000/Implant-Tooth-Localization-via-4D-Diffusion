@@ -5,25 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7b0d82bf-871f-48a2-a331-984a2fde06b9" name="Changes" comment="classifier 추가">
-      <change afterPath="$PROJECT_DIR$/config/config_classifier.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/classifier_dataset.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eval.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/encoder.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/eval_script" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/test_script" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_classifier.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/train_classifier.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/trainer/classifier_trainer.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/config_xray.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/config_xray.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/blocks.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/blocks.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/train_script" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/train_script" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/train.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trainer/ct_trainer.py" beforeDir="false" afterPath="$PROJECT_DIR$/trainer/ct_trainer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trainer/xray_trainer.py" beforeDir="false" afterPath="$PROJECT_DIR$/trainer/xray_trainer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/util/util.py" beforeDir="false" afterPath="$PROJECT_DIR$/util/util.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/prepare_dataset_pex.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/prepare_dataset_pex.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,6 +56,7 @@
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
     "settings.editor.selected.configurable": "reference.settings.deploy.options",
     "vue.rearranger.settings.migration": "true"
   }
@@ -487,6 +472,16 @@
           <line>135</line>
           <option name="timeStamp" value="271" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/train.py</url>
+          <line>10</line>
+          <option name="timeStamp" value="280" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/eval.py</url>
+          <line>11</line>
+          <option name="timeStamp" value="282" />
+        </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
@@ -510,7 +505,7 @@
     <SUITE FILE_PATH="coverage/CAD$torch_distributed_launch.coverage" NAME="test Coverage Results" MODIFIED="1699942512781" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/CAD$prepare_dataset_CBCT.coverage" NAME="prepare_dataset_CBCT Coverage Results" MODIFIED="1700184737951" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/data" />
     <SUITE FILE_PATH="coverage/CAD$train_.coverage" NAME="train_ Coverage Results" MODIFIED="1699959607320" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/CAD$eval_xray.coverage" NAME="eval_xray Coverage Results" MODIFIED="1701147372676" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/CAD$eval_xray.coverage" NAME="eval_xray Coverage Results" MODIFIED="1701155675103" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/CAD$classifier_dataset.coverage" NAME="classifier_dataset Coverage Results" MODIFIED="1700704766898" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/data" />
     <SUITE FILE_PATH="coverage/CAD$classifier_test.coverage" NAME="classifier_test Coverage Results" MODIFIED="1700718159155" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
