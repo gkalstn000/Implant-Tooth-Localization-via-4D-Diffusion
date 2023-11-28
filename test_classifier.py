@@ -26,7 +26,6 @@ def parse_args():
     parser.add_argument('--test_fold', type=int, default=1, help='models are saved here')
 
     # etc.
-    parser.add_argument('--corrupt_level', type=int, default=300)
     parser.add_argument('--seed', type=int, default=0, help='Random seed.')
     parser.add_argument('--which_iter', type=int, default=None)
     parser.add_argument('--no_resume', action='store_true')
@@ -84,19 +83,6 @@ if __name__ == '__main__':
                   'label': []}
 
     for i, data_i in enumerate(tqdm(val_dataset)):
-
-        samples, filenames, labels, scores = trainer.test(data_i)
-        save_videos_as_files(samples, save_root, filenames, labels)
-        save_videos_to_images(samples,
-                              os.path.join(opt.data.path, 'classifier', f'{opt.data.test_fold}_{args.corrupt_level}'),
-                              filenames,
-                              labels)
-
-        score_dict['filename'].extend(filenames)
-        score_dict['score'].extend(scores)
-        score_dict['label'].extend(labels.tolist())
-
-    score_df = pd.DataFrame.from_dict(score_dict)
-    score_df.to_csv(os.path.join(save_root, 'scores.csv'), index=False)
-    # score_df[['filename', 'label']].to_csv(os.path.join(opt.data.path, 'classifier', opt.data.test_fold, 'label.csv'), index=False)
-    print('Test was successfully finished.')
+        img_frame, filename, label = trainer.preprocess_input(data_i)
+        max_images = (img_frame*0.5+0.5).max(2)[0]
+        scores = torch.abs(max_images.sum((1, 2, 3)))**0.5

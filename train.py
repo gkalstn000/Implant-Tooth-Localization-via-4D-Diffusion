@@ -12,11 +12,13 @@ import wandb
 def parse_args():
     parser = argparse.ArgumentParser(description='Training')
     # Config path
-    parser.add_argument('--config', type=str, default='./config/config_ct.yaml', help='training config dir')
+    parser.add_argument('--config', type=str, default='./config/config_xray.yaml', help='training config dir')
     # experiment specifics
     parser.add_argument('--exp_name', type=str, default='diffusion', help='name of the experiment. It decides where to store samples and models')
     parser.add_argument('--model', type=str, default='diffusion', help='name of the model. [diffusion, VAE]')
     parser.add_argument('--checkpoints_dir', type=str, default='./checkpoints', help='models are saved here')
+    parser.add_argument('--test_fold', type=int, default=1, help='models are saved here')
+
     # etc.
     parser.add_argument('--seed', type=int, default=0, help='Random seed.')
     parser.add_argument('--which_iter', type=int, default=None)
@@ -42,6 +44,7 @@ if __name__ == '__main__':
 
     opt = Config(args.config, args, is_train=True, verbose=True)
     opt.continue_train = not args.no_resume
+    opt.data.test_fold = args.test_fold
     opt.save_root = save_root
     opt.model.param.maxframe = opt.data.maxframe
     opt.model.param.sub_frame = opt.data.sub_frame
@@ -50,10 +53,10 @@ if __name__ == '__main__':
         opt.data.resolution = (int(h), int(w))
     # Debug setting
     if args.debug :
-        opt.display_freq= 1
-        # opt.print_freq = 1
-        # opt.save_latest_freq= 1
-        # opt.save_epoch_freq= 1
+        # opt.display_freq= 1
+        opt.print_freq = 1
+        opt.save_latest_freq= 1
+        opt.save_epoch_freq= 1
         opt.data.train.batch_size=2
         opt.image_to_wandb = False
 

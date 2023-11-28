@@ -1,18 +1,14 @@
+from tqdm import tqdm
 import os
 import argparse
-import wandb
-import torch
-import numpy as np
-from tqdm import tqdm
-import pandas as pd
-from PIL import Image
 import data
-from trainer.base import image_frame_to_grid
 from util.distributed import init_distributed, is_main_process
-from util.util import set_random_seed, save_videos_as_files, save_videos_to_images
+from util.util import set_random_seed, calculate_scores
 from config.config import Config
 from models.diffusion import make_beta_schedule, create_gaussian_diffusion
+from util.iter_counter import IterationCounter
 import trainer
+import wandb
 def parse_args():
     parser = argparse.ArgumentParser(description='Training')
     # Config path
@@ -21,20 +17,16 @@ def parse_args():
     parser.add_argument('--exp_name', type=str, default='diffusion', help='name of the experiment. It decides where to store samples and models')
     parser.add_argument('--model', type=str, default='diffusion', help='name of the model. [diffusion, VAE]')
     parser.add_argument('--checkpoints_dir', type=str, default='./checkpoints', help='models are saved here')
-    parser.add_argument('--save_root', type=str, default='./results', help='models are saved here')
-    parser.add_argument('--save_name', type=str, help='name of the experiment. It decides where to store samples and models')
     parser.add_argument('--test_fold', type=int, default=1, help='models are saved here')
 
     # etc.
-    parser.add_argument('--corrupt_level', type=int, default=300)
     parser.add_argument('--seed', type=int, default=0, help='Random seed.')
     parser.add_argument('--which_iter', type=int, default=None)
     parser.add_argument('--no_resume', action='store_true')
+    parser.add_argument('--debug', action='store_true')
     # for DDP
     parser.add_argument('--local-rank', type=int, default=0)
     parser.add_argument('--single_gpu', action='store_true')
-    parser.add_argument('--sample_algorithm', type=str, default='ddim')
-
 
     args = parser.parse_args()
     return args
@@ -46,17 +38,27 @@ if __name__ == '__main__':
     set_random_seed(args.seed)
 
     # Save path setting
-    save_root = os.path.join(args.save_root, args.save_name)
+    save_root = os.path.join(args.checkpoints_dir, args.exp_name)
     if is_main_process() :
         os.makedirs(save_root, exist_ok=True)
 
-    opt = Config(args.config, args, is_train=True, verbose=False)
+    opt = Config(args.config, args, is_train=True, verbose=True)
     opt.continue_train = not args.no_resume
     opt.data.test_fold = args.test_fold
-    opt.save_root = os.path.join('./checkpoints', args.exp_name)
+    opt.save_root = save_root
     opt.model.param.maxframe = opt.data.maxframe
     opt.model.param.sub_frame = opt.data.sub_frame
-    opt.diffusion.sample_algorithm = args.sample_algorithm
+    if not isinstance(opt.data.resolution, int) :
+        h, w = opt.data.resolution.split(',')
+        opt.data.resolution = (int(h), int(w))
+    # Debug setting
+    if args.debug :
+        # opt.display_freq= 1
+        opt.print_freq = 1
+        opt.save_latest_freq= 1
+        opt.save_epoch_freq= 1
+        opt.data.train.batch_size=2
+        opt.image_to_wandb = False
 
     if not args.single_gpu:
         opt.local_rank = local_rank
@@ -70,6 +72,9 @@ if __name__ == '__main__':
     beta_schedule = make_beta_schedule(**opt.diffusion.beta_schedule)
     diffusion = create_gaussian_diffusion(beta_schedule, predict_xstart=False)
 
+    if is_main_process() and opt.image_to_wandb:
+        wandb.init(project="CAD", name=opt.exp_name, settings=wandb.Settings(code_dir="."), resume=False)
+
     trainer = trainer.get_trainer(opt,
                                   diffusion, model,
                                   model_ema,
@@ -79,24 +84,35 @@ if __name__ == '__main__':
                                   wandb)
     trainer.load_checkpoint(opt, args.which_iter)
 
-    score_dict = {'filename': [],
-                  'score': [],
-                  'label': []}
+    iter_counter = IterationCounter(opt, len(train_dataset))
 
-    for i, data_i in enumerate(tqdm(val_dataset)):
+    for epoch in iter_counter.training_epochs() :
+        iter_counter.record_epoch_start(epoch)
+        if not args.single_gpu:
+            train_dataset.sampler.set_epoch(iter_counter.epoch_iter)
+        for i, data_i in enumerate(tqdm(train_dataset), start=iter_counter.epoch_iter):
+            iter_counter.record_one_iteration()
+            trainer.optimize_parameters(data_i)
+            # record current epoch/iter
+            iter_counter.record_current_iter()
+            # Check training process
+            trainer.end_of_iteration(data_i, iter_counter)
+            if args.debug :
+                break
 
-        samples, filenames, labels, scores = trainer.test(data_i)
-        save_videos_as_files(samples, save_root, filenames, labels)
-        save_videos_to_images(samples,
-                              os.path.join(opt.data.path, 'classifier', f'{opt.data.test_fold}_{args.corrupt_level}'),
-                              filenames,
-                              labels)
+        # Validation
+        true_list = []
+        pred_list = []
+        for i, data_i in enumerate(tqdm(val_dataset), start=iter_counter.epoch_iter):
+            true, pred = trainer.test(data_i)
+            true_list.extend(true)
+            pred_list.extend(pred)
 
-        score_dict['filename'].extend(filenames)
-        score_dict['score'].extend(scores)
-        score_dict['label'].extend(labels.tolist())
+        valid_score = calculate_scores(true_list, pred_list)
+        if is_main_process() and opt.image_to_wandb:
+            wandb.log(valid_score)
 
-    score_df = pd.DataFrame.from_dict(score_dict)
-    score_df.to_csv(os.path.join(save_root, 'scores.csv'), index=False)
-    # score_df[['filename', 'label']].to_csv(os.path.join(opt.data.path, 'classifier', opt.data.test_fold, 'label.csv'), index=False)
-    print('Test was successfully finished.')
+        iter_counter.record_epoch_end()
+        # trainer.end_of_epoch(val_dataset, iter_counter)
+    trainer.save_checkpoint('latest')
+    print('Training was successfully finished.')

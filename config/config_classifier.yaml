@@ -1,6 +1,6 @@
 distributed: True
 image_to_wandb: True
-display_freq: 5000
+display_freq: 99999999999
 print_freq: 100
 save_latest_freq: 2000
 save_regular_freq: 15000
@@ -9,7 +9,7 @@ max_epoch: 12000
 
 
 data:
-    name: xray
+    name: classifier
     type: data.cad_dataset::CadDataset
     preprocess_mode: resize_and_crop
     path: /datasets/msha/cad
@@ -17,16 +17,17 @@ data:
     resolution: 128
     scale_param: 0.05
     maxframe: 16
-    sub_frame: 4
+    sub_frame: 16
+    test_fold: 1
     train:
       batch_size: 6          # real_batch_size: 4 * 2 (source-->target & target --> source) * 2 (GPUs) = 16
       distributed: True
     val:
-      batch_size: 2
+      batch_size: 4
       distributed: True
 
 model:
-    type: models.unet::BeatGANsUNetModel
+    type: models.encoder::Encoder
     param:
         image_size: 128
         in_channels: 1  # 3+20, assuming this is a sum
@@ -77,7 +78,7 @@ model:
         latent_net_conf: null
 
 trainer:
-    type: trainer.xray_trainer::Trainer
+    type: trainer.classifier_trainer::Trainer
     start_iteration: 0
     loss_weight:
       weight_mean: 2
@@ -86,11 +87,11 @@ trainer:
 
 optimizer:
     type: adam
-    lr: 2e-5
+    lr: 2e-4
 
 scheduler:
     type: step
-    lr: 2e-5
+    lr: 2e-4
     step_size: 1000000000
     gamma: 1
     n_iter: 2400000

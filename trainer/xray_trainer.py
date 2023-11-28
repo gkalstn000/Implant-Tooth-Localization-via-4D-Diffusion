@@ -6,7 +6,6 @@ import random
 import numpy as np
 from torch import nn, optim
 import torch
-
 from torch import autograd
 import torch.distributions as dist
 import torch.nn.functional as F
@@ -14,7 +13,7 @@ from trainer import accumulate
 from trainer.base import BaseTrainer
 from models.diffusion import ddim_steps_no_cond as ddim_steps
 from collections import defaultdict
-from util.util import print_PILimg
+from util.util import print_PILimg, video_minmax
 class Trainer(BaseTrainer):
     def __init__(self,
                  opt,
@@ -92,11 +91,11 @@ class Trainer(BaseTrainer):
                                                        progress = True,
                                                        cond_scale = self.opt.diffusion.cond_scale)
             elif self.opt.diffusion.sample_algorithm == 'ddim':
-                print ('Sampling algorithm used: DDIM')
-                nsteps = 50
+                # print ('Sampling algorithm used: DDIM')
+                nsteps = self.opt.args.corrupt_level // 2
                 noise = torch.randn(img_frame.shape).cuda()
                 # q_sasmple
-                corrupt_level = 150
+                corrupt_level = self.opt.args.corrupt_level
                 t = torch.tensor([corrupt_level] * img_frame.size(0)).to(img_frame.device)
                 x_t = self.diffusion.q_sample(img_frame, t, noise=noise)
 
@@ -108,7 +107,7 @@ class Trainer(BaseTrainer):
                                           b= torch.tensor(betas).float().cuda())
                 samples = xs[-1].cuda()
 
-        return samples, filename
+        return samples, x_t
 
     def test(self, data):
         sub_frame = self.opt.data.sub_frame
@@ -119,19 +118,23 @@ class Trainer(BaseTrainer):
         labels = data['label']
 
         frame_fake = []
-
-        for step in trange(steps, desc='making ct frame') :
+        x_ts = []
+        for step in range(steps) :
             start = step * sub_frame
             idx = list(range(start, start+sub_frame))
             data_sub = {key:val[:, :, idx] if key == 'ct' else val for key, val in data.items()}
             data_sub['start_frame'] += start
-            samples, _ = self._get_visualizations(data_sub, True)
+            samples, x_t = self._get_visualizations(data_sub, True)
             frame_fake.append(samples.cpu())
+            x_ts.append(x_t.cpu())
 
+        x_t = (torch.clamp(torch.cat(x_ts, 2), -1, 1) + 1) / 2
         frame_fake = (torch.clamp(torch.cat(frame_fake, 2), -1, 1) + 1) / 2
         frame_real = (data['ct'][:, :, :steps*sub_frame] + 1) / 2
-        diff = torch.where(frame_real - frame_fake < 0, 0,  frame_real - frame_fake)
-        # diff = torch.where(diff < 0.5, 0, diff)
-        samples = torch.cat([frame_real, frame_fake, diff], -1)*255
-        scores = diff.sum((1, 2, 3, 4))**0.5
+        diff = frame_real - frame_fake
+        diff = torch.where(diff > 0.1, diff, 0)
+        diff = video_minmax(diff)
+        diff_seg = torch.where(diff > 0.5, 1, 0)
+        samples = torch.cat([x_t, frame_real, frame_fake, diff, diff_seg], -1)*255
+        scores = diff_seg.sum((1, 2, 3, 4))**0.5
         return samples, filenames, labels, scores.tolist()

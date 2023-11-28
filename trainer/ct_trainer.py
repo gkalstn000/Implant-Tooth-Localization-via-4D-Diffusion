@@ -96,7 +96,7 @@ class Trainer(BaseTrainer):
                 nsteps = 50
                 noise = torch.randn(img_frame.shape).cuda()
                 # q_sasmple
-                corrupt_level = 500
+                corrupt_level = 300
                 t = torch.tensor([corrupt_level] * img_frame.size(0)).to(img_frame.device)
                 x_t = self.diffusion.q_sample(img_frame, t, noise=noise)
 

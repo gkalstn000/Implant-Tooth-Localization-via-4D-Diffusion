@@ -647,9 +647,10 @@ class SpatioTemporalAttentionWithAbsolutePosition(SpatioTemporalAttention):
         self.max_frames = max_frames
         self.sub_frame = sub_frame
 
-    def forward(self, x, start_frame_index, enable_time=True):
+    def forward(self, x, start_frame_index=None, enable_time=True):
         b, c, f, h, w = x.shape
-
+        if start_frame_index == None:
+            start_frame_index = th.tensor([0]*b).to(x.device)
         # 연속적인 프레임 인덱스를 계산합니다.
         sub_frame_indices = (start_frame_index[:, None] + th.arange(self.sub_frame).to(x.device)).flatten(0, 1)
 
