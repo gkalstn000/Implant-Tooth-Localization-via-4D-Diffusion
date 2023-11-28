@@ -15,7 +15,7 @@ from models.losses import normal_kl, discretized_gaussian_log_likelihood
 from types import *
 
 import torch
-import tqdm
+from tqdm import tqdm
 
 def compute_alpha(beta, t):
     beta = torch.cat([torch.zeros(1).to(beta.device), beta], dim=0)
@@ -64,7 +64,7 @@ def ddim_steps_no_cond(x, seq, model, b, diffusion=None, cond_scale=2, **kwargs)
         x0_preds = []
         xs = [x]
         xt = x
-        for i, j in zip(reversed(seq), reversed(seq_next)):
+        for i, j in tqdm(zip(reversed(seq), reversed(seq_next)), total=x.size(0)):
             t = (torch.ones(n) * i).to(x.device)
             next_t = (torch.ones(n) * j).to(x.device)
             at = compute_alpha(b, t.long())

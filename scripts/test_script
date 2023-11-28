@@ -6,7 +6,7 @@ CUDA_VISIBLE_DEVICES=0 python -m torch.distributed.launch --nproc_per_node=1 --m
 CUDA_VISIBLE_DEVICES=0 python -m torch.distributed.launch --nproc_per_node=1 --master_port 25383 test.py --exp_name xray_128_1 --save_name xray_1_300 --corrupt_level 300
 CUDA_VISIBLE_DEVICES=0 python -m torch.distributed.launch --nproc_per_node=1 --master_port 25383 test.py --exp_name xray_128_1 --save_name xray_1_400 --corrupt_level 400
 CUDA_VISIBLE_DEVICES=0 python -m torch.distributed.launch --nproc_per_node=1 --master_port 25383 test.py --exp_name xray_128_1 --save_name xray_1_500 --corrupt_level 500
-CUDA_VISIBLE_DEVICES=0 python -m torch.distributed.launch --nproc_per_node=1 --master_port 25383 test.py --exp_name xray_128_1 --save_name xray_1_600 --corrupt_level 600
+CUDA_VISIBLE_DEVICES=0 python -m torch.distributed.launch --nproc_per_node=1 --master_port 24215 test.py --exp_name xray_128_1 --save_name demo_1 --corrupt_level 600
 
 CUDA_VISIBLE_DEVICES=0 python -m torch.distributed.launch --nproc_per_node=1 --master_port 25383 test.py --exp_name xray_128_2 --save_name xray_2_050 --corrupt_level 50 --test_fold 2
 CUDA_VISIBLE_DEVICES=0 python -m torch.distributed.launch --nproc_per_node=1 --master_port 25383 test.py --exp_name xray_128_2 --save_name xray_2_100 --corrupt_level 100 --test_fold 2

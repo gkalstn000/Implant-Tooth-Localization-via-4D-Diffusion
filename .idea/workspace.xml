@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7b0d82bf-871f-48a2-a331-984a2fde06b9" name="Changes" comment="video" />
+    <list default="true" id="7b0d82bf-871f-48a2-a331-984a2fde06b9" name="Changes" comment=".">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/diffusion.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/diffusion.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/test_script" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/test_script" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/trainer/xray_trainer.py" beforeDir="false" afterPath="$PROJECT_DIR$/trainer/xray_trainer.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -388,7 +393,23 @@
       <option name="project" value="LOCAL" />
       <updated>1701158661251</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="video">
+      <option name="closed" value="true" />
+      <created>1701158730253</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1701158730253</updated>
+    </task>
+    <task id="LOCAL-00014" summary=".">
+      <option name="closed" value="true" />
+      <created>1701158761525</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1701158761525</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -419,10 +440,10 @@
     <MESSAGE value="open-ai diffusion 적용&#10;no conditional 생성 우선적으로&#10;안해도될듯" />
     <MESSAGE value="sampling corrupt 설정중" />
     <MESSAGE value="sampling corrupt 및 test code 중간완료&#10;* 전체 frame 출력하는 test code 필요" />
-    <MESSAGE value="." />
     <MESSAGE value="requirements&#10;readme" />
     <MESSAGE value="video" />
-    <option name="LAST_COMMIT_MESSAGE" value="video" />
+    <MESSAGE value="." />
+    <option name="LAST_COMMIT_MESSAGE" value="." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
