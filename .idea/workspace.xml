@@ -6,9 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="7b0d82bf-871f-48a2-a331-984a2fde06b9" name="Changes" comment=".">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/diffusion.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/diffusion.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/test_script" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/test_script" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trainer/xray_trainer.py" beforeDir="false" afterPath="$PROJECT_DIR$/trainer/xray_trainer.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -409,7 +406,15 @@
       <option name="project" value="LOCAL" />
       <updated>1701158761525</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary=".">
+      <option name="closed" value="true" />
+      <created>1701161222615</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1701161222615</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
