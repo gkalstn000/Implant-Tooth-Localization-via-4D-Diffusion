@@ -19,7 +19,7 @@ fonttools==4.43.1
 fsspec==2023.10.0
 ftfy==6.1.1
 gitdb==4.0.11
-GitPython==3.1.40
+GitPython==3.1.41
 gmpy2 @ file:///tmp/build/80754af9/gmpy2_1645455532332/work
 huggingface-hub==0.17.3
 idna @ file:///croot/idna_1666125576474/work
